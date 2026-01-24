@@ -1,3 +1,3 @@
-## Welcome to Digital Artifactory's landing page
+## Welcome to Artifacts.mx's landing page
 
 Nothing to do here...
