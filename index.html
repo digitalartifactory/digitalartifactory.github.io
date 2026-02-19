@@ -1,104 +1,263 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Artifacts.mx</title>
-  <link rel="stylesheet" href="css/pico.min.css" />
-  <link rel="stylesheet" href="css/index.css" />
+  <title>Artifacts.mx - Open Source Software</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'obsidian': '#1e1e2e',
+            'charcoal': '#252536',
+            'graphite': '#2d2d42',
+            'slate': '#3a3a52',
+            'electric': '#cba6f7',
+            'electric-dark': '#b197fc',
+            'muted': '#9390a8',
+          },
+          fontFamily: {
+            'display': ['Syne', 'sans-serif'],
+            'mono': ['Space Mono', 'monospace'],
+            'hero': ['Bebas Neue', 'sans-serif'],
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.6s ease-out forwards',
+            'slide-up': 'slideUp 0.6s ease-out forwards',
+            'slide-in-left': 'slideInLeft 0.6s ease-out forwards',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            slideInLeft: {
+              '0%': { opacity: '0', transform: 'translateX(-20px)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' },
+            },
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    * {
+      font-family: 'Space Mono', monospace;
+    }
+    
+    body {
+      background-color: #1e1e2e;
+      color: #cdd6f4;
+    }
+    
+    .font-display {
+      font-family: 'Syne', sans-serif;
+    }
+    
+    .noise-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.03;
+      z-index: 100;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+    
+    .glow {
+      box-shadow: 0 0 40px rgba(203, 166, 247, 0.15);
+    }
+    
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 60px rgba(203, 166, 247, 0.1);
+    }
+    
+    .line-clamp-3 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .animate-delay-100 { animation-delay: 100ms; }
+    .animate-delay-200 { animation-delay: 200ms; }
+    .animate-delay-300 { animation-delay: 300ms; }
+    .animate-delay-400 { animation-delay: 400ms; }
+    .animate-delay-500 { animation-delay: 500ms; }
+    
+    ::selection {
+      background-color: #cba6f7;
+      color: #1e1e2e;
+    }
+  </style>
 </head>
+<body class="min-h-screen relative">
+  <div class="noise-overlay"></div>
+  
+  <header class="fixed top-0 left-0 right-0 z-50 border-b border-graphite/50 backdrop-blur-md bg-obsidian/80">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3 group">
+        <img src="images/logo.svg" alt="Artifacts.mx" class="w-8 h-8 transition-transform duration-300 group-hover:rotate-12">
+        <span class="font-display font-bold text-xl tracking-tight">Artifacts.mx - Open Source Software</span>
+      </a>
+      <a href="https://github.com/artifacts-oss" 
+         target="_blank" 
+         rel="noopener noreferrer"
+         class="flex items-center gap-2 text-muted hover:text-electric transition-colors duration-200 group">
+        <span class="text-sm hidden sm:inline">GitHub</span>
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        </svg>
+      </a>
+    </div>
+  </header>
 
-<body style="font-family: 'Ubuntu', sans-serif;">
-  <main class="container">
-    <header>
-      <div class="grid">
-        <nav>
-          <ul>
-            <img src="images/logo.svg" alt="Artifacts.mx's logo">
-            <li>
-              <div style="margin-left: 0.5rem;">Artifacts.mx</div>
-            </li>
-          </ul>
-          <ul>
-            <li><a href="#">
-            <li><a href="https://github.com/artifacts-oss"><img src="images/github-mark-white.png" alt="GitHub"
-                  style="width: 1.5rem;">
-              </a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    <section>
-      <div class="grid">
-        <div style="display: flex; flex-direction: column; justify-content: center; height: 50vh;">
-          <h1>An indie open source and private software</h1>
-          <h1>development organization.</h1>
-          <p>by <a href="https://github.com/artifacts-dav">David Rdz-Reveles</a></p>
+  <main class="pt-24">
+    <section class="min-h-[70vh] flex items-center relative overflow-hidden">
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(203,166,247,0.08)_0%,_transparent_50%)]"></div>
+      <div class="absolute top-1/4 -right-32 w-96 h-96 bg-electric/5 rounded-full blur-3xl"></div>
+      
+      <div class="max-w-6xl mx-auto px-6 py-20 relative z-10">
+        <div class="max-w-3xl">
+          <p class="text-electric text-sm font-mono tracking-widest uppercase mb-4 opacity-0 animate-fade-in">
+            Open Source Organization
+          </p>
+          <h1 class="font-hero text-6xl sm:text-7xl lg:text-8xl tracking-wide mb-6 opacity-0 animate-slide-up animate-delay-100">
+            Independent <span class="text-transparent bg-clip-text bg-gradient-to-r from-electric to-electric-dark">software craft</span>
+          </h1>
+          <p class="text-xl sm:text-2xl text-muted max-w-xl mb-8 opacity-0 animate-slide-up animate-delay-200">
+            Building tools for those who design, create, and love software.
+          </p>
+          <div class="flex items-center gap-4 opacity-0 animate-slide-up animate-delay-300">
+            <div class="flex items-center gap-2 text-sm text-muted">
+              <span class="w-2 h-2 bg-electric rounded-full animate-pulse"></span>
+              by <a href="https://github.com/artifacts-dav" class="text-electric hover:underline">David Rdz-Reveles</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 animate-fade-in animate-delay-500">
+          <div class="flex flex-col items-center gap-2 text-muted text-xs">
+            <span>Scroll</span>
+            <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+          </div>
         </div>
       </div>
     </section>
-    <div class="grid">
-      <div style="margin-top: 2rem; margin-bottom: 2rem;">
-        <h2>Current projects</h2>
-        <p>For those who use, design, create and love software, here are some open source projects you can give a try.</p>
-      </div>
-      <div style="margin-top: 2rem; margin-bottom: 2rem;">
-        <article>
-          <header>
-            <h2>daylog</h2>
-          </header>
-          <div class="grid">
-            <div style="display: flex; justify-content: center;">
-              <a href="https://github.com/artifacts-oss/daylog">
-                <img src="images/daylog.png" alt="daylog">
+
+    <section class="py-20 relative">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+          <div>
+            <p class="text-electric text-xs font-mono tracking-widest uppercase mb-2 opacity-0 animate-slide-in-left">Projects</p>
+            <h2 class="font-display font-bold text-3xl sm:text-4xl">Current work</h2>
+          </div>
+          <p class="text-muted max-w-md text-sm sm:text-base">
+            Open source tools crafted with care for developers who appreciate thoughtful design.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <article class="group card-hover bg-charcoal border border-graphite rounded-lg overflow-hidden opacity-0 animate-slide-up animate-delay-100">
+            <div class="aspect-video bg-graphite flex items-center justify-center overflow-hidden p-6">
+              <img src="images/daylog.png" alt="daylog" class="w-full h-full object-contain transform transition-transform duration-500 group-hover:scale-105">
+            </div>
+            <div class="p-6">
+              <div class="flex items-center gap-3 mb-3">
+                <h3 class="font-display font-bold text-xl text-white group-hover:text-electric transition-colors">daylog</h3>
+                <span class="px-2 py-0.5 text-xs font-mono bg-graphite text-muted rounded">Web</span>
+              </div>
+              <p class="text-muted text-sm mb-4 line-clamp-3">
+                A self-hosted, board-based note-taking and markdown editor web application.
+              </p>
+              <a href="https://github.com/artifacts-oss/daylog" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="inline-flex items-center gap-2 text-electric text-sm font-mono hover:gap-3 transition-all">
+                View on GitHub
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
               </a>
             </div>
-            <div style="display: flex; flex-direction: column; justify-content: center;">
-              <p>A self-hosted, board-based note-taking and markdown editor web application.</p>
+          </article>
+
+          <article class="group card-hover bg-charcoal border border-graphite rounded-lg overflow-hidden opacity-0 animate-slide-up animate-delay-200">
+            <div class="aspect-video bg-graphite flex items-center justify-center overflow-hidden p-6">
+              <img src="images/goardian.png" alt="goardian" class="w-full h-full object-contain transform transition-transform duration-500 group-hover:scale-105">
             </div>
-          </div>
-        </article>
-        <article>
-          <header>
-            <h2>goardian</h2>
-          </header>
-          <div class="grid">
-            <div style="display: flex; justify-content: center;">
-              <a href="https://github.com/artifacts-oss/goardian">
-                <img src="images/goardian.png" alt="goardian">
+            <div class="p-6">
+              <div class="flex items-center gap-3 mb-3">
+                <h3 class="font-display font-bold text-xl text-white group-hover:text-electric transition-colors">goardian</h3>
+                <span class="px-2 py-0.5 text-xs font-mono bg-graphite text-muted rounded">CLI</span>
+              </div>
+              <p class="text-muted text-sm mb-4 line-clamp-3">
+                A simple terminal-based HTTP service health checker built with Go and Bubble Tea.
+              </p>
+              <a href="https://github.com/artifacts-oss/goardian" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="inline-flex items-center gap-2 text-electric text-sm font-mono hover:gap-3 transition-all">
+                View on GitHub
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
               </a>
             </div>
-            <div style="display: flex; flex-direction: column; justify-content: center;">
-              <p>A simple terminal-based HTTP service health checker built with Go and Bubble Tea.</p>
+          </article>
+
+          <article class="group card-hover bg-charcoal border border-graphite rounded-lg overflow-hidden opacity-0 animate-slide-up animate-delay-300">
+            <div class="aspect-video bg-graphite flex items-center justify-center overflow-hidden p-6">
+              <img src="https://github.com/artifacts-oss/giffos/raw/main/src-tauri/icons/Square150x150Logo.png" alt="giffos" class="w-full h-full object-contain transform transition-transform duration-500 group-hover:scale-105">
             </div>
-          </div>
-        </article>
-         <article>
-          <header>
-            <h2>giffos</h2>
-          </header>
-          <div class="grid">
-            <div style="display: flex; justify-content: center;">
-              <a href="https://github.com/artifacts-oss/giffos">
-                <img src="https://github.com/artifacts-oss/giffos/raw/main/src-tauri/icons/Square150x150Logo.png" alt="giffos">
+            <div class="p-6">
+              <div class="flex items-center gap-3 mb-3">
+                <h3 class="font-display font-bold text-xl text-white group-hover:text-electric transition-colors">giffos</h3>
+                <span class="px-2 py-0.5 text-xs font-mono bg-graphite text-muted rounded">Desktop</span>
+              </div>
+              <p class="text-muted text-sm mb-4 line-clamp-3">
+                An awesome GIFs widget integrated with Giphy, built with React, Tailwind and Tauri.
+              </p>
+              <a href="https://github.com/artifacts-oss/giffos" 
+                 target="_blank" 
+                 rel="noopener noreferrer"
+                 class="inline-flex items-center gap-2 text-electric text-sm font-mono hover:gap-3 transition-all">
+                View on GitHub
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
               </a>
             </div>
-            <div style="display: flex; flex-direction: column; justify-content: center;">
-              <p> An awesome gifs widget integrated with Giphy built with React, Tailwind and Tauri.</p>
-            </div>
-          </div>
-        </article>
-      </div>
-    </div>
-    <footer>
-      <div class="grid">
-        <div>
-          <p>© 2025 Artifacts.mx all rights reserved.</p>
+          </article>
         </div>
       </div>
-    </footer>
+    </section>
+
+    <section class="py-20 border-t border-graphite">
+      <div class="max-w-6xl mx-auto px-6 text-center">
+        <p class="text-muted text-sm">
+          &copy; 2026 <span class="text-white">Artifacts.mx - Open Source Software</span> &mdash; Built with care, released to the world.
+        </p>
+      </div>
+    </section>
   </main>
 </body>
-
 </html>
